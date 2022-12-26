@@ -1,6 +1,7 @@
 let timerId = 0
 let time = 75;
 let currentQuestionNum = 0;
+var currentQuestion;
 const startButtonEl = document.getElementById("start-btn")
 const startPageEl = document.getElementById("start-screen")
 const questionsEl = document.getElementById("question-screen")
@@ -8,6 +9,7 @@ const timerEl = document.getElementById("time")
 const titleEl = document.getElementById("question-title")
 const choicesEl = document.getElementById("choices")
 const choiceList = document.getElementById("choiceList")
+
 
 const highscores = [];
 
@@ -61,7 +63,7 @@ function scoreQuiz() {
 
 function getQuestion() {
     // get current question object from array
-    var currentQuestion = questions[currentQuestionNum];
+    currentQuestion = questions[currentQuestionNum];
   
     // update title with current question
     var titleEl = document.getElementById('question-title');
@@ -84,7 +86,32 @@ function getQuestion() {
       choicesEl.appendChild(choiceNode);
     }
   }
+function choiceHandler(event) {
+    var buttonEl= event.target;
+    if(buttonEl.value !== currentQuestion.answer) {
+        time -= 15;
+        if (time < 0) {
+            time = 0;
+        }
+    timerEl.textContent = ('Timer: '+ time);
+    alert("wrong answer, press okay to continue");
+    }
+    else {
+        alert ("correct answer, press okay to continue")
+    } 
+    currentQuestionNum++;
+    if (time<=0 || currentQuestionNum===questions.length) {
+        endQuiz();
+    } else {
+        getQuestion();
+    }
+}
 
+function endQuiz() {
+    console.log("end quiz tbd");
+}
+
+choicesEl.addEventListener("click", choiceHandler);
 
 //starts quiz when button is pressed
 startButtonEl.addEventListener("click", function() {
