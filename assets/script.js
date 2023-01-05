@@ -9,6 +9,7 @@ const timerEl = document.getElementById("time")
 const titleEl = document.getElementById("question-title")
 const choicesEl = document.getElementById("choices")
 const choiceList = document.getElementById("choiceList")
+const initalEl = document.getElementById("initials")
 
 
 const highscores = [];
@@ -117,6 +118,9 @@ function endQuiz() {
     questionsEl.setAttribute("class", "hide");
 }
 
+var submitButton = document.getElementById("submit");
+
+
 choicesEl.addEventListener("click", choiceHandler);
 
 //starts quiz when button is pressed
@@ -124,3 +128,17 @@ startButtonEl.addEventListener("click", function() {
     console.log("Listening")
     startQuiz();
 });
+
+function saveScore() {
+    console.log("save score tbd");
+    var highscores = JSON.parse(window.localStorage.getItem('highscores')) || [];
+    var newScore = {
+        score: time,
+        initials: initalEl.value
+    }
+    highscores.push(newScore);
+    window.localStorage.setItem('highscores', JSON.stringify(highscores));
+    window.location.href = 'highscore.html';
+}
+
+submitButton.addEventListener("click", saveScore);
